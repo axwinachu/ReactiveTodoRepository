@@ -1,5 +1,6 @@
 package com.example.ReactiveTodoApplication.service;
 
+import com.example.ReactiveTodoApplication.exception.TaskIdNotFound;
 import com.example.ReactiveTodoApplication.model.Todo;
 import com.example.ReactiveTodoApplication.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class TodoService {
     }
     public Mono<Todo> getById(Long id) {
         return todoRepository.findById(id)
-                .switchIfEmpty(Mono.error(new RuntimeException("invalid id")));
+                .switchIfEmpty(Mono.error(new TaskIdNotFound(id)));
     }
     public Mono<Todo> addTask(Todo todo) {
         return todoRepository.save(todo)
