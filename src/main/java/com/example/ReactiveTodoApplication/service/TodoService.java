@@ -1,6 +1,8 @@
 package com.example.ReactiveTodoApplication.service;
 
 import com.example.ReactiveTodoApplication.exception.TaskIdNotFound;
+import com.example.ReactiveTodoApplication.exception.TaskNotAddedException;
+import com.example.ReactiveTodoApplication.exception.UpdateFailed;
 import com.example.ReactiveTodoApplication.model.Todo;
 import com.example.ReactiveTodoApplication.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +23,15 @@ public class TodoService {
     }
     public Mono<Todo> addTask(Todo todo) {
         return todoRepository.save(todo)
-                .switchIfEmpty(Mono.error(new RuntimeException("todo not added")));
+                .switchIfEmpty(Mono.error(new TaskNotAddedException(todo.getId())));
     }
     public Mono<Todo> updateTask(Todo updatedTask) {
         return todoRepository.save(updatedTask)
-                .switchIfEmpty(Mono.error(new RuntimeException("update is failed")));
+                .switchIfEmpty(Mono.error(new UpdateFailed(updatedTask.getId())));
     }
     public Mono<Void> deleteTask(Long id){
         return todoRepository.findById(id)
-                .switchIfEmpty(Mono.error(new RuntimeException("Task not found")))
+                .switchIfEmpty(Mono.error(new TaskIdNotFound(id)))
                 .flatMap(todoRepository::delete);
     }
 }
