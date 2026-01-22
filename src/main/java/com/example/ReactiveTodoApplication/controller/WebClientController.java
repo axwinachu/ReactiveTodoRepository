@@ -17,6 +17,5 @@ public class WebClientController {
               .uri("/posts")
               .retrieve()
               .bodyToFlux(PostDto.class);
-
     }
 }

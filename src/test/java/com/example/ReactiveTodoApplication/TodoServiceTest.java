@@ -16,8 +16,7 @@ import reactor.test.StepVerifier;
 
 import java.time.LocalDateTime;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TodoServiceTest {
